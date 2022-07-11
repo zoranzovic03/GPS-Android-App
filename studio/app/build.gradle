@@ -1,0 +1,133 @@
+apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+jacoco {
+    toolVersion = jacocoVersion
+}
+
+android {
+    def buildNumber = System.getenv("BUILD_NUMBER") as Integer ?: 1
+    compileSdkVersion 26
+    buildToolsVersion "$rootProject.buildToolsVersion"
+
+    dataBinding {
+        enabled = true
+    }
+
+    defaultConfig {
+        applicationId "nl.sogeti.android.gpstracker.ng"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode buildNumber
+        versionName "2.0.0-SNAPSHOT"
+        buildConfigField "int", "BUILD_NUMBER", buildNumber as String
+        buildConfigField "String", "GIT_COMMIT", "\"" + System.getenv("GIT_COMMIT") + "\"" as String ?: "\"Unknown\""
+        archivesBaseName = "opengpstracker-ng-$versionName"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    flavorDimensions "service"
+
+    flavorDimensions "service"
+
+    productFlavors {
+        live {
+            dimension "service"
+        }
+        mock {
+            dimension "service"
+            applicationIdSuffix = ".mock"
+            minSdkVersion 18 // To work with uiautomator-v18
+        }
+    }
+
+    if (System.getenv().containsKey("storeFile")) {
+        apply from: 'signing.gradle'
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled false
+        }
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+        abortOnError false
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+        force "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+        force "com.android.support:design:$rootProject.supportLibraryVersion"
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':integration')
+    implementation project(':widgets')
+//    wearApp project(':wear')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlinVersion"
+    implementation "com.google.android.gms:play-services-maps:$rootProject.playServicesVersion"
+    implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:design:$rootProject.supportLibraryVersion"
+    implementation "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    implementation "com.android.support.constraint:constraint-layout:$rootProject.constraintsLibraryVersion"
+    implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt "com.android.databinding:compiler:$rootProject.dataBindingVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+    implementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryVersion"
+//    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanaryVersion"
+
+    releaseImplementation "com.google.firebase:firebase-crash:$rootProject.playServicesVersion"
+
+    mockImplementation "com.android.support.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
+
+    testImplementation "junit:junit:$rootProject.junitVersion"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
+    testImplementation "org.robolectric:robolectric:$rootProject.robolectricVersion"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryVersion"
+
+    kapt "com.android.support.test:runner:$rootProject.testRunnerVersion"
+    androidTestMockImplementation "com.android.support.test.uiautomator:uiautomator-v18:$rootProject.uiautomator"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.testRunnerVersion"
+    androidTestImplementation "com.android.support.test:rules:$rootProject.testRunnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+}
+
+apply plugin: 'com.google.gms.google-services'

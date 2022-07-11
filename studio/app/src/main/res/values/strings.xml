@@ -1,0 +1,124 @@
+<!--
+
+   /* ******************************************************************************
+    **     Ident: Sogeti Smart Mobile Solutions
+    **    Author: rene
+    ** Copyright: (c) 2016 Sogeti Nederland B.V. All Rights Reserved.
+    ********************************************************************************
+    ** Sogeti Nederland B.V.            |  No part of this file may be reproduced
+    ** Distributed Software Engineering |  or transmitted in any form or by any
+    ** Lange Dreef 17                   |  means, electronic or mechanical, for the
+    ** 4131 NJ Vianen                   |  purpose, without the express written
+    ** The Netherlands                  |  permission of the copyright holder.
+    *******************************************************************************
+    *
+    *   This file is part of OpenGPSTracker.
+    *
+    *   OpenGPSTracker is free software: you can redistribute it and/or modify
+    *   it under the terms of the GNU General Public License as published by
+    *   the Free Software Foundation, either version 3 of the License, or
+    *   (at your option) any later version.
+    *
+    *   OpenGPSTracker is distributed in the hope that it will be useful,
+    *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *   GNU General Public License for more details.
+    *
+    *   You should have received a copy of the GNU General Public License
+    *   along with OpenGPSTracker.  If not, see <http://www.gnu.org/licenses/>.
+    *
+    */
+-->
+<resources>
+    <string name="app_name">Open GPS Tracker NG</string>
+
+    <!--Map list screen -->
+    <string name="action_list">List tracks</string>
+    <string name="action_about">About</string>
+    <string name="action_edit">Edit details</string>
+    <!--Map list screen / Recording fragment-->
+    <string name="fragment_recording_summary">%1$s in %2$s with a\n%3$s average speed</string>
+    <string name="fragment_recording_satellites">SATS\n%1$d/%2$d</string>
+    <string name="fragment_tracks_empty">No tracks found, record or import some</string>
+    <plurals name="fragment_recording_waypoints">
+        <item quantity="one">%d waypoint</item>
+        <item quantity="other">%d waypoints</item>
+    </plurals>
+    <string name="state_logging">RECORDING</string>
+    <string name="state_paused">PAUSED</string>
+    <string name="state_stopped">STOPPED</string>
+    <!--Map list screen / Edit fragment-->
+    <string name="activity_track_map_rename_hint">Track name</string>
+    <string name="activity_track_map_rename_message">Enter track name</string>
+    <string name="activity_track_map_edit">Edit track</string>
+
+    <!--About screen-->
+    <string name="about_version">Version %1$s (%2$s, build %3$d)</string>
+
+    <!--Track list screen -->
+    <string name="title_activity_tracks">Track list</string>
+    <string name="row_start_default">--</string>
+    <string name="row_duraction_default">--</string>
+    <string name="row_distance_default">--</string>
+    <string name="row_track_icon_default">Default activity</string>
+    <string name="row_track_map">Overview map</string>
+
+    <string name="track_type_default">tracking</string>
+    <string name="track_type_run">running</string>
+    <string name="track_type_walk">walking</string>
+    <string name="track_type_bike">biking</string>
+    <string name="track_type_boat">on a boat</string>
+    <string name="track_type_car">in a car</string>
+    <string name="track_type_train">in a train</string>
+    <string name="period_morning">morning</string>
+    <string name="period_afternoon">afternoon</string>
+    <string name="period_evening">evening</string>
+    <string name="period_night">night</string>
+    <string name="initial_track_name">Unnamed track</string>
+    <string name="initial_time_track_name">%1$s %2$s</string>
+    <string name="initial_time_location_track_name">%1$s %2$s in %3$s</string>
+
+    <plurals name="track_duration_seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+    <plurals name="track_duration_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="track_duration_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="track_duration_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <string name="permission_explain_need_control">Open GPS Tracker NG needs your permission to access tracks and control logging of the original Open GPS Tracker.</string>
+    <string name="permission_missing_title">Missing installation</string>
+    <string name="permission_missing_message">The original Open GPS Tracker is required to run this application</string>
+    <string name="permission_button_install">Install</string>
+    <string name="track_share">Share</string>
+    <string name="track_edit">Edit</string>
+    <string name="track_delete">Delete</string>
+    <string name="fragment_track_delete">Delete track</string>
+    <string name="fragment_track_delete_body">Are you sure you want to delete this track?</string>
+    <string name="control_record">Record</string>
+    <string name="control_stop">Stop</string>
+    <string name="control_pause">Pause</string>
+    <string name="control_resume">Resume</string>
+    <string name="action_graphs">Graphs</string>
+    <string name="title_activity_graphs">Track graphs</string>
+    <string name="graph_label_day">Day</string>
+    <string name="graph_label_start_time">Time</string>
+    <string name="graph_label_total">Total</string>
+    <string name="graph_label_paused">Paused</string>
+    <string name="graph_label_distance">Distance</string>
+    <string name="graph_label_points">Points</string>
+    <string name="graph_label_speed">Speed</string>
+    <string name="graph_label_time">Time</string>
+    <string name="graph_label_altitude">Altitude</string>
+    <string name="menu_item_export">Export</string>
+    <string name="menu_item_import">Import</string>
+
+</resources>
