@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-jacoco {
-    toolVersion = jacocoVersion
-}
+//jacoco {
+//    toolVersion = jacocoVersion
+//}
 
 android {
     def buildNumber = System.getenv("BUILD_NUMBER") as Integer ?: 1
@@ -28,8 +28,6 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    flavorDimensions "service"
-
     flavorDimensions "service"
 
     productFlavors {
@@ -74,8 +72,9 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        animationsDisabled = true
     }
-
+    
     testOptions.unitTests.all {
         testLogging {
             events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
@@ -95,8 +94,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':integration')
     implementation project(':widgets')
-//    wearApp project(':wear')
+    implementation project(':utils')
 
+    //    wearApp project(':wear')
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.kotlinVersion"
     implementation "com.google.android.gms:play-services-maps:$rootProject.playServicesVersion"
     implementation "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
@@ -111,17 +111,14 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 
     implementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryVersion"
-//    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanaryVersion"
+    //    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanaryVersion"
 
     releaseImplementation "com.google.firebase:firebase-crash:$rootProject.playServicesVersion"
-
     mockImplementation "com.android.support.test.espresso:espresso-idling-resource:$rootProject.espressoVersion"
-
     testImplementation "junit:junit:$rootProject.junitVersion"
     testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
     testImplementation "org.robolectric:robolectric:$rootProject.robolectricVersion"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanaryVersion"
-
     kapt "com.android.support.test:runner:$rootProject.testRunnerVersion"
     androidTestMockImplementation "com.android.support.test.uiautomator:uiautomator-v18:$rootProject.uiautomator"
     androidTestImplementation "com.android.support.test:runner:$rootProject.testRunnerVersion"

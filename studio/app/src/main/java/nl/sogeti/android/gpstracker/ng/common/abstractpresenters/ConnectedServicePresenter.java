@@ -44,8 +44,6 @@ import javax.inject.Named;
 import kotlin.jvm.functions.Function1;
 import nl.sogeti.android.gpstracker.integration.ServiceConstants;
 import nl.sogeti.android.gpstracker.integration.ServiceManagerInterface;
-import nl.sogeti.android.gpstracker.ng.common.GpsTrackerApplication;
-import nl.sogeti.android.gpstracker.ng.track.TrackNavigator;
 import nl.sogeti.android.gpstracker.ng.utils.ContentProviderExtensionsKt;
 import nl.sogeti.android.gpstracker.ng.utils.TrackUriExtensionKt;
 import timber.log.Timber;
@@ -78,19 +76,19 @@ public abstract class ConnectedServicePresenter<T extends Navigation> extends Co
                             new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (isStarted()) {
-                                        Context context = ConnectedServicePresenter.this.getContext();
+                                    Context context = getContextWhenStarted();
+                                    if (context != null) {
                                         long trackId = serviceManager.getTrackId();
                                         Uri trackUri = null;
                                         String name = null;
                                         if (trackId > 0) {
                                             trackUri = TrackUriExtensionKt.trackUri(trackId);
-                                            name = ContentProviderExtensionsKt.apply(trackUri, context, new Function1<Cursor, String>() {
+                                            name = ContentProviderExtensionsKt.apply(trackUri, context, null, null, new Function1<Cursor, String>() {
                                                 @Override
                                                 public String invoke(Cursor cursor) {
                                                     return ContentProviderExtensionsKt.getString(cursor, NAME);
                                                 }
-                                            }, null, null);
+                                            });
                                         }
                                         int loggingState = serviceManager.getLoggingState();
                                         Timber.d("onConnect LoggerState %s %s %d", trackUri, name, loggingState);

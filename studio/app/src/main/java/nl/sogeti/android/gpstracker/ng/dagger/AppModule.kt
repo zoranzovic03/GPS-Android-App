@@ -28,16 +28,22 @@
  */
 package nl.sogeti.android.gpstracker.ng.dagger
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import nl.sogeti.android.gpstracker.ng.common.controllers.content.ContentControllerFactory
-import nl.sogeti.android.gpstracker.ng.model.TrackSelection
-import nl.sogeti.android.gpstracker.ng.sharing.GpxShareProvider
-import nl.sogeti.android.gpstracker.ng.sharing.ShareIntentFactory
-import nl.sogeti.android.gpstracker.ng.map.LocationFactory
+import nl.sogeti.android.gpstracker.ng.gpxexport.GpxShareProvider
+import nl.sogeti.android.gpstracker.ng.gpxexport.ShareIntentFactory
+import nl.sogeti.android.gpstracker.ng.gpximport.GpxImportController
+import nl.sogeti.android.gpstracker.ng.gpximport.GpxImportControllerFactory
+import nl.sogeti.android.gpstracker.ng.gpximport.GpxParser
+import nl.sogeti.android.gpstracker.ng.gpximport.GpxParserFactory
 import nl.sogeti.android.gpstracker.ng.map.TrackReaderFactory
 import nl.sogeti.android.gpstracker.ng.map.rendering.TrackTileProviderFactory
+import nl.sogeti.android.gpstracker.ng.model.TrackSelection
 import nl.sogeti.android.gpstracker.ng.trackedit.TrackTypeDescriptions
+import nl.sogeti.android.gpstracker.ng.tracklist.ImportNotification
+import nl.sogeti.android.gpstracker.ng.tracklist.ImportNotificationFactory
 import nl.sogeti.android.gpstracker.ng.tracklist.summary.SummaryCalculator
 import nl.sogeti.android.gpstracker.ng.tracklist.summary.SummaryManager
 import nl.sogeti.android.gpstracker.ng.tracklist.summary.TimeSpanCalculator
@@ -78,11 +84,28 @@ class AppModule {
     @Provides
     fun shareIntentFactory() = ShareIntentFactory()
 
-    @Provides @Named("shareProviderAuthority")
+    @Provides
+    @Named("shareProviderAuthority")
     fun shareProviderAuthority(): String {
         return GpxShareProvider.AUTHORITY
     }
 
-    @Provides @Named("dayFormatter")
+    @Provides
+    @Named("dayFormatter")
     fun dayFormatter() = SimpleDateFormat("EEEE", Locale.getDefault())
+
+    @Provides
+    fun gpxParserFactory() = object : GpxParserFactory {
+        override fun createGpxParser(context: Context) = GpxParser(context)
+    }
+
+    @Provides
+    fun gpxImportControllerFactory() = object : GpxImportControllerFactory {
+        override fun createGpxImportController(context: Context) = GpxImportController(context)
+    }
+
+    @Provides
+    fun importNotificationFactory() = object : ImportNotificationFactory {
+        override fun createImportNotification(context: Context) = ImportNotification(context)
+    }
 }

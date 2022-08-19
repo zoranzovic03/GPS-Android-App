@@ -45,10 +45,15 @@
             android:theme="@style/AppTheme" />
 
         <provider
-            android:name="nl.sogeti.android.gpstracker.ng.sharing.GpxShareProvider"
+            android:name="nl.sogeti.android.gpstracker.ng.gpxexport.GpxShareProvider"
             android:authorities="${applicationId}.gpxshareprovider"
             android:exported="false"
             android:grantUriPermissions="true" />
+
+        <service
+            android:name="nl.sogeti.android.gpstracker.ng.gpximport.ImportService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

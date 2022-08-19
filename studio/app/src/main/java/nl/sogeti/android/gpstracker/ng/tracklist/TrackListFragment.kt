@@ -30,11 +30,10 @@ package nl.sogeti.android.gpstracker.ng.tracklist
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
-import nl.sogeti.android.gpstracker.ng.track.TrackNavigator
+import nl.sogeti.android.gpstracker.ng.utils.ActivityResultLambdaFragment
 import nl.sogeti.android.gpstracker.ng.utils.PermissionRequester
 import nl.sogeti.android.gpstracker.ng.utils.executeOnUiThread
 import nl.sogeti.android.gpstracker.v2.R
@@ -43,7 +42,7 @@ import nl.sogeti.android.gpstracker.v2.databinding.FragmentTracklistBinding
 /**
  * Sets up display and selection of tracks in a list style
  */
-class TrackListFragment : Fragment(), TrackListViewModel.View {
+class TrackListFragment : ActivityResultLambdaFragment(), TrackListViewModel.View {
 
     private val viewModel = TrackListViewModel()
     private val trackListPresenter = TrackListPresenter(viewModel, this)
@@ -54,11 +53,6 @@ class TrackListFragment : Fragment(), TrackListViewModel.View {
         fun newInstance(): TrackListFragment {
             return TrackListFragment()
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -76,11 +70,13 @@ class TrackListFragment : Fragment(), TrackListViewModel.View {
 
     override fun onStart() {
         super.onStart()
-        permissionRequester.start(this, { trackListPresenter.start(activity, TrackNavigator(activity)) })
+        permissionRequester.start(this, { trackListPresenter.start(activity, TrackListNavigation(this)) })
+        setHasOptionsMenu(true)
     }
 
     override fun onStop() {
         super.onStop()
+        setHasOptionsMenu(false)
         trackListPresenter.stop()
         permissionRequester.stop()
     }
@@ -99,10 +95,10 @@ class TrackListFragment : Fragment(), TrackListViewModel.View {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val isHandled: Boolean
         if (item.itemId == R.id.menu_item_export) {
-            trackListPresenter.didSelectExport()
+            trackListPresenter.didSelectExportToDirectory()
             isHandled = true
         } else if (item.itemId == R.id.menu_item_import) {
-            trackListPresenter.didSelectImport()
+            trackListPresenter.didSelectImportFromDirectory()
             isHandled = true
         } else {
             isHandled = super.onOptionsItemSelected(item)

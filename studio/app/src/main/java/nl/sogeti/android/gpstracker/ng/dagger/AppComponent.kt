@@ -32,12 +32,17 @@ import android.net.Uri
 import dagger.Component
 import nl.sogeti.android.gpstracker.ng.control.ControlPresenter
 import nl.sogeti.android.gpstracker.ng.graphs.GraphsPresenter
-import nl.sogeti.android.gpstracker.ng.map.TrackMapFragment
+import nl.sogeti.android.gpstracker.ng.gpximport.GpxImportController
+import nl.sogeti.android.gpstracker.ng.gpximport.ImportService
 import nl.sogeti.android.gpstracker.ng.map.TrackMapPresenter
+import nl.sogeti.android.gpstracker.ng.recording.RecordingNavigation
 import nl.sogeti.android.gpstracker.ng.recording.RecordingPresenter
+import nl.sogeti.android.gpstracker.ng.track.TrackNavigator
 import nl.sogeti.android.gpstracker.ng.track.TrackPresenter
 import nl.sogeti.android.gpstracker.ng.trackdelete.TrackDeletePresenter
 import nl.sogeti.android.gpstracker.ng.trackedit.TrackEditPresenter
+import nl.sogeti.android.gpstracker.ng.tracklist.ImportNotification
+import nl.sogeti.android.gpstracker.ng.tracklist.TrackListNavigation
 import nl.sogeti.android.gpstracker.ng.tracklist.TrackListPresenter
 import nl.sogeti.android.gpstracker.ng.tracklist.TrackListViewAdapter
 import nl.sogeti.android.gpstracker.ng.tracklist.summary.SummaryCalculator
@@ -72,12 +77,26 @@ interface AppComponent {
 
     fun inject(injectable: SummaryManager)
 
-    fun inject(permissionRequester: PermissionRequester)
+    fun inject(injectable: PermissionRequester)
+
+    fun inject(injectable: RecordingNavigation)
+
+    fun inject(injectable: TrackNavigator)
+
+    fun inject(injectable: TrackListNavigation)
+
+    fun inject(injectable: GpxImportController)
+
+    fun inject(injectable: ImportService)
+
+    fun inject(inject: ImportNotification)
 
     @Named("providerAuthority")
     fun providerAuthority(): String
 
     @Named("shareProviderAuthority")
+
     fun providerShareAuthority(): String
+
     fun provideUriBuilder(): Uri.Builder
 }

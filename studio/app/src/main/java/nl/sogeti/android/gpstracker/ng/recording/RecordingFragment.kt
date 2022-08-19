@@ -47,13 +47,14 @@ class RecordingFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<FragmentRecordingBinding>(inflater, R.layout.fragment_recording, container, false)
         binding.viewModel = viewModel
+        binding.presenter = presenter
 
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        permissionRequester.start(this, { presenter.start(activity) })
+        permissionRequester.start(this, { presenter.start(context, RecordingNavigation()) })
     }
 
     override fun onStop() {

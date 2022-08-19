@@ -7,7 +7,6 @@ import nl.sogeti.android.gpstracker.ng.common.controllers.content.ContentControl
 import nl.sogeti.android.gpstracker.ng.model.TrackSelection
 import nl.sogeti.android.gpstracker.ng.rules.MockAppComponentTestRule
 import nl.sogeti.android.gpstracker.ng.rules.any
-import nl.sogeti.android.gpstracker.ng.track.TrackNavigator
 import nl.sogeti.android.gpstracker.ng.tracklist.summary.SummaryManager
 import nl.sogeti.android.gpstracker.ng.utils.tracksUri
 import org.junit.Before
@@ -40,7 +39,11 @@ class TrackListPresenterTest {
     @Mock
     lateinit var executor: Executor
     @Mock
-    lateinit var navigation: TrackNavigator
+    lateinit var navigation: TrackListNavigation
+    @Mock
+    lateinit var notificationFactory: ImportNotificationFactory
+    @Mock
+    lateinit var notification: ImportNotification
     lateinit var sut: TrackListPresenter
 
     @Before
@@ -51,8 +54,11 @@ class TrackListPresenterTest {
         sut.contentControllerFactory = contentControllerFactory
         sut.summaryManager = summaryManager
         sut.executor = executor
+        sut.notificationFactory = notificationFactory
         `when`(contentControllerFactory.createContentController(any(), any()))
                 .thenReturn(contentController)
+        `when`(notificationFactory.createImportNotification(context))
+                .thenReturn(notification)
     }
 
     @Test
@@ -83,6 +89,6 @@ class TrackListPresenterTest {
         sut.didSelectTrack(selectedUri, "testname")
         // Assert
         verify(trackSelection).selectTrack(selectedUri, "testname")
-        verify(navigation).hideTrackList()
+        verify(navigation).finishTrackSelection()
     }
 }
